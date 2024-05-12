@@ -4,8 +4,9 @@ System kontroli tożsamości opiekunów dzieci w przedszkolach
 # Development
 
 ## Dev containers
+0. Instalacja Docker Desktop
 1. Instalacja wtyczki Dev Containers do VS Code
-2. Dev Containers: Reopen and Rebuild in container
+2. Ctrl+Shift+P -> Dev Containers: Reopen and Rebuild in container
 3. W osobnych terminalach
     * python backend/manage.py runserver
     * cd frontend && npm start

@@ -2,8 +2,8 @@ FROM mcr.microsoft.com/devcontainers/python:1-3.11-bullseye
 
 ENV PYTHONUNBUFFERED 1
 
-RUN cd frontend && npm install
-RUN pip install -r requirements.txt
+# RUN cd frontend && npm install
+
 
 
 # [Optional] If your requirements rarely change, uncomment this section to add them to the image.
