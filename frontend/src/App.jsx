@@ -1,7 +1,9 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Login as TeacherLogin } from './pages/teacher/Login';
+import { Logout as TeacherLogout } from './pages/teacher/Logout';
 import { Login } from './pages/Login';
 import { Root } from "./pages/Root";
+import { Home } from "./pages/teacher/Home";
 
 const router = createBrowserRouter([
   {
@@ -10,11 +12,19 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <Login/>,
+    element: <Login />,
+  },
+  {
+    path: "/teacher",
+    element: <Home />,
   },
   {
     path: "/teacher/login",
     element: <TeacherLogin />,
+  },
+  {
+    path: "/teacher/logout",
+    element: <TeacherLogout />,
   },
 ]);
 
