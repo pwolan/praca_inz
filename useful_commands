@@ -1,0 +1,6 @@
+python backend/manage.py startapp <nazwa_panelu>
+python backend/manage.py migrate
+
+python backend/manage.py runserver
+
+cd frontend && npm start
