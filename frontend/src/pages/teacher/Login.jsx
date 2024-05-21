@@ -3,6 +3,8 @@ import axios from "axios";
 import { useState } from "react";
 import { Navigation } from "../../components/Navigation";
 
+
+
 export const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -17,11 +19,11 @@ export const Login = () => {
         const { data } = await
             axios.post('http://localhost:8000/teacher/token',
                 user, {
-                    headers:
-                        { 'Content-Type': 'application/json' }
+                headers:
+                    { 'Content-Type': 'application/json' }
             },
-                {withCredentials: true} );
-        if(!data){
+                { withCredentials: true });
+        if (!data) {
             return;
         }
 
@@ -33,37 +35,31 @@ export const Login = () => {
             `Bearer ${data['access']}`;
         window.location.href = '/teacher'
     }
-return (
-    <div className="Auth-form-container">
+    return (
+    <div>
         <Navigation />
-        <form className="Auth-form p-6" onSubmit={submit}>
-            <div className="Auth-form-content">
-                <h3 className="Auth-form-title text-xl">Sign In</h3>
-                <div className="form-group mt-3">
-                    <label>Username</label>
-                    <input className="form-control mt-1"
-                        placeholder="Enter Username"
-                        name='username'
-                        type='text' value={username}
-                        required
-                        onChange={e => setUsername(e.target.value)} />
-                </div>
-                <div className="form-group mt-3">
-                    <label>Password</label>
-                    <input name='password'
-                        type="password"
-                        className="form-control mt-1"
-                        placeholder="Enter password"
-                        value={password}
-                        required
-                        onChange={e => setPassword(e.target.value)} />
-                </div>
-                <div className="d-grid gap-2 mt-3">
-                    <button type="submit"
-                        className="btn btn-primary">Submit</button>
+        <section className="bg-gray-50 dark:bg-gray-900">
+            <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+                <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+                    <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+                        <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                            Logowanie
+                        </h1>
+                        <form className="space-y-4 md:space-y-6" onSubmit={submit}>
+                            <div>
+                                <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Login</label>
+                                <input value={username}  onChange={e => setUsername(e.target.value)} type="username" name="username" id="username" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required="" />
+                            </div>
+                            <div>
+                                <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Hasło</label>
+                                <input value={password} onChange={e => setPassword(e.target.value)} type="password" name="password" id="password" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="" />
+                            </div>
+                            <button type="submit" className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Zaloguj się</button>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </form>
+        </section>
     </div>
-)
+    )
 }

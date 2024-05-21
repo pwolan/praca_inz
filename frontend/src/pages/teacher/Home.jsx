@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
+import { Navigation } from "../../components/Navigation";
 
 export const Home = () => {
      const [message, setMessage] = useState('');
@@ -24,8 +25,12 @@ export const Home = () => {
          })()};
      }, []);
      return (
+      <div>
+        <Navigation />
         <div className="form-signin mt-5 text-center">
+
           <h3>Hi: {message}</h3>
         </div>
+      </div>
      )
 }
