@@ -1,5 +1,6 @@
 python backend/manage.py startapp <nazwa_panelu>
 python backend/manage.py migrate
+                         makemigrations
 
 python backend/manage.py runserver
 
