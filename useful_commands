@@ -1,0 +1,14 @@
+- Start new django app -
+python backend/manage.py startapp <nazwa_panelu>
+
+- Database commands -
+python backend/manage.py makemigrations
+                         migrate
+
+- App startup -
+python backend/manage.py runserver
+cd frontend && npm start
+
+!!! In case of app startup errors !!!
+pip install -r requirements.txt
+cd frontend && npm install
