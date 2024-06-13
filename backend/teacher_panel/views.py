@@ -11,6 +11,12 @@ def send_some_data(request):
         "data": "Hello from techer api"
     })
 
+@api_view(['GET'])
+def class_data(request, id):
+    return Response({
+        "id": id 
+    })
+
 class HomeView(APIView):
 
     permission_classes = (IsAuthenticated, )

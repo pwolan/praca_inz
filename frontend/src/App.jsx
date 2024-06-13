@@ -4,6 +4,7 @@ import { Logout as TeacherLogout } from './pages/teacher/Logout';
 import { Login } from './pages/Login';
 import { Root } from "./pages/Root";
 import { Home } from "./pages/teacher/Home";
+import { Class } from "./pages/teacher/Class";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
   {
     path: "/teacher/logout",
     element: <TeacherLogout />,
+  },
+  {
+    path: "/teacher/class/:id",
+    element: <Class />
   },
 ]);
 
