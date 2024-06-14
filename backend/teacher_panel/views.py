@@ -1,4 +1,5 @@
-from rest_framework.decorators import api_view
+from django.http import HttpRequest
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
@@ -8,15 +9,14 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from .models import *
 
 @api_view(['GET'])
-def send_some_data(request):
+@permission_classes([IsAuthenticated])
+def send_some_data(request: HttpRequest):
     classes = dict()
-    # TODO jak ktoś zrobi logowanie to należy podmienić kod
-    # user_classes = UserClassrooms.objects.filter(user_id=request.user.id)
-    user_classes = UserClassrooms.objects.filter(user_id=1)
+    user_classes = UserClassrooms.objects.filter(user_id=request.user.id)
     for class_obj in user_classes:
          classes[class_obj.classroom_id] = Classroom.objects.get(id=class_obj.classroom_id).name
     return Response({
-        "data": "Hello from techer api",
+        "data": "Hello from teacher api",
         "classes": classes
     })
 
@@ -36,9 +36,11 @@ def class_data(request, id):
     objects = Children.objects.filter(classroom_id=id)
     for obj in objects:
         children[obj.id] = {'name': obj.name, 'surname': obj.surname}
+    classroom = Classroom.objects.get(id=id)
     return Response({
         "id": id,
-        "children": children
+        "children": children,
+        "class_name": classroom.name,
     })
 
 class HomeView(APIView):

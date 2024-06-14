@@ -6,15 +6,60 @@ from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.base_user import AbstractBaseUser
 
 from . import managers
+#from backbone.models import User
+from django.contrib.auth.models import User
+from teacher_panel.models import Children
 
 class LogType(models.TextChoices):
+    LOGIN = 'LOGIN', 'Login'
+    CREATE = 'CREATE', 'Create'
+    DELETE = 'DELETE', 'Delete'
+    IMPORT = 'IMPORT', 'Import' # import 
+    ADD_PARENT = 'ADD_PARENT', 'Add Parent' # Add parent to child
+    HISTORY = 'HISTORY', 'History' # Who accessed history
+    ADD_PERMISSION = 'ADD_PERMISSION', 'Add Permission' # Add temporary permission
+    SIGN = 'SIGN', 'Sign' # Sign consent
+    WARNING = 'WARNING', 'Warning'
     ERROR = 'ERROR', 'Error'
-    NORMAL = 'NORMAL', 'Normal'
+    INFO = 'INFO', 'Info'
+
+class ConsentType(models.TextChoices):
+    INFORMATION = 'INFORMATION', 'Information'
+    BIOMETRIC = 'BIOMETRIC', 'Biometric'
+    # etc.
 
 class Logs(models.Model):
-    log_type = models.CharField(max_length=6, choices=LogType.choices, default=LogType.NORMAL)
-    date = models.DateTimeField()
+    log_type = models.CharField(max_length=20, choices=LogType.choices, default=LogType.LOGIN)
+    date = models.DateTimeField(auto_now_add=True)
     data = models.JSONField()
+
+class Consents(models.Model):
+    consent_type = models.CharField(max_length=20, choices=ConsentType.choices, default=ConsentType.INFORMATION)
+    change_date = models.DateTimeField(auto_now=True)
+    description = models.TextField()
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['consent_type', 'description'], name='unique_consent_type_description'),
+        ]
+
+class UserConsents(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    consent = models.ForeignKey(Consents, on_delete=models.CASCADE)
+    signing_date = models.DateTimeField(auto_now_add=True)
+    seen_changes = models.BooleanField(default=False)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'consent'], name='unique_user_consent')
+        ]
+
+class History(models.Model):
+    child = models.ForeignKey(Children, on_delete=models.CASCADE)
+    receiver = models.ForeignKey(User, on_delete=models.CASCADE ,related_name='receiver')
+    teacher = models.ForeignKey(User, on_delete=models.CASCADE, related_name='teacher')
+    decision = models.BooleanField(default=True)
+    date = models.DateTimeField(auto_now_add=True)
 
 # class User(AbstractBaseUser, PermissionsMixin):
 #     email = models.EmailField(unique=True)

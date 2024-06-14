@@ -17,7 +17,6 @@ const validationSchema = Yup.object().shape({
 export const Login = () => {
 
     const submit = async (values, { setStatus }) => {
-        console.log('submit3');
         const user = {
             username: values.email,
             password: values.password
@@ -25,7 +24,7 @@ export const Login = () => {
 
         try {
             const { data } = await
-                axios.post('http://localhost:8000/teacher/token',
+                axios.post('http://localhost:8000/parent/token',
                     user, {
                     headers:
                         { 'Content-Type': 'application/json' }
@@ -42,7 +41,7 @@ export const Login = () => {
             localStorage.setItem('refresh_token', data.refresh);
             axios.defaults.headers.common['Authorization'] = `Bearer ${data['access']}`;
             console.log(`Bearer ${data['access']}`)
-            window.location.href = '/teacher'
+            window.location.href = '/parent'
         } catch (error) {
             console.log(error);
             setStatus('Wystąpił Błąd. Spróbuj ponownie.')
