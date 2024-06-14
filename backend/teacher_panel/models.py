@@ -24,3 +24,10 @@ class Children(models.Model):
 class UserChildren(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     child = models.ForeignKey(Children, on_delete=models.CASCADE)
+
+# class Profile(models.Model):
+#     user = models.OneToOneField(User, on_delete=models.CASCADE)
+#     name = models.CharField(max_length=50)
+#     surname = models.CharField(max_length=50)
+#     email = models.CharField(max_length=50)
+#     telephone = models.CharField(max_length=50)

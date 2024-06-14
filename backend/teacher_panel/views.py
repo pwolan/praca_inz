@@ -5,10 +5,40 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from .models import *
+
 @api_view(['GET'])
 def send_some_data(request):
+    classes = dict()
+    # TODO jak ktoś zrobi logowanie to należy podmienić kod
+    # user_classes = UserClassrooms.objects.filter(user_id=request.user.id)
+    user_classes = UserClassrooms.objects.filter(user_id=1)
+    for class_obj in user_classes:
+         classes[class_obj.classroom_id] = Classroom.objects.get(id=class_obj.classroom_id).name
     return Response({
-        "data": "Hello from techer api"
+        "data": "Hello from techer api",
+        "classes": classes
+    })
+
+@api_view(['GET'])
+def class_data(request, id):
+    # obj = Children(1, 'jan', 'augustyn', 1)
+    # obj.save()
+    # obj = Children(2, 'jakub', 'bizan', 1)
+    # obj.save()
+    # obj = Children(3, 'jan', 'bizan', 2)
+    # obj.save()
+    # obj = Children(4, 'paweł', 'wolanin', 2)
+    # obj.save()
+    # obj = Children(5, 'ja', 'kroczek', 1)
+    # obj.save()
+    children = dict()
+    objects = Children.objects.filter(classroom_id=id)
+    for obj in objects:
+        children[obj.id] = {'name': obj.name, 'surname': obj.surname}
+    return Response({
+        "id": id,
+        "children": children
     })
 
 class HomeView(APIView):
