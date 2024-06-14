@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
-    "teacher_panel"
+    'teacher_panel',
+    'backbone'
 ]
 
 MIDDLEWARE = [
@@ -90,6 +91,8 @@ SIMPLE_JWT = {
 
 WSGI_APPLICATION = "backend.wsgi.application"
 
+# AUTH_USER_MODEL = 'backbone.User'
+# AUTHENTICATION_BACKENDS = ['backbone.backend.SettingsBackend']
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
