@@ -12,15 +12,9 @@ export const Class = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(BACKEND_ADDRESS + `/teacher/class/${id}`, {
-          headers: {
-             'Content-Type': 'application/json'
-          }
-        });
-        // console.log(response.data)
+        const response = await axios.get(BACKEND_ADDRESS + `/teacher/class/${id}`);
         setClassData(response.data);
         setChildren(response.data.children);
-        // console.log(response.data.children);
       } catch (error) {
         console.error('Error:', error);
       }
@@ -31,6 +25,7 @@ export const Class = () => {
 
   const handleAddChild = () => {
     // Logika do dodania nowego dziecka
+    // Formularz można zrobić za pomocą Formik -> Patrz Login.jsx
   };
 
   const handleImportClass = () => {
@@ -44,7 +39,7 @@ export const Class = () => {
         {classData && (
           <div>
             <h1>ID klasy: {classData.id}</h1>
-            <h2>Nazwa klasy: {classData.name}</h2>
+            <h2>Nazwa klasy: {classData.class_name}</h2>
             <div>
               <h3>Lista dzieci:</h3>
               <ul>

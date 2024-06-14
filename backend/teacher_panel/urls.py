@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework_simplejwt.views import  TokenRefreshView, TokenObtainPairView
 
 urlpatterns = [
     path("", views.send_some_data),
