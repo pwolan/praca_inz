@@ -1,5 +1,6 @@
 # Praca inżynierska 2024/2025
 System kontroli tożsamości opiekunów dzieci w przedszkolach
+https://docs.google.com/document/d/129ivr-Cifjc3LthBoJADm0ipba0X7vGCPr46uz0X5L0/edit?usp=sharing
 
 # Development
 
