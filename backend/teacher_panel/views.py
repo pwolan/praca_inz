@@ -8,6 +8,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from .models import *
 
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def send_some_data(request: HttpRequest):

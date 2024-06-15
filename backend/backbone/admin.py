@@ -1,8 +1,7 @@
-# from django.contrib import admin
-# from django.contrib.auth.admin import UserAdmin
+from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
 
-# from .forms import RegisterForm
-# from .models import User
+from .models import CustomUser
 
 # class CustomUserAdmin(UserAdmin):
 #     add_form = RegisterForm
@@ -11,4 +10,4 @@
 #     ordering = ("email",)
 #     list_display = ["email", "first_name",]
 
-# admin.site.register(User, CustomUserAdmin)
+admin.site.register(CustomUser, UserAdmin) #TODO add required email field when creating user in admin panel and remove username

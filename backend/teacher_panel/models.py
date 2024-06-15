@@ -1,6 +1,6 @@
 from django.db import models
 #from backbone.models import User
-from django.contrib.auth.models import User
+from backbone.models import CustomUser as User
 
 # Create your models here.
 
@@ -15,7 +15,6 @@ class UserClassrooms(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['user', 'classroom'], name='unique_user_classroom')
         ]
-
 
 class Children(models.Model):
     name = models.CharField(max_length=50)
@@ -37,9 +36,9 @@ class UserChildren(models.Model):
             models.UniqueConstraint(fields=['user', 'child'], name='unique_user_child')
         ]
 
-# class Profile(models.Model):
-#     user = models.OneToOneField(User, on_delete=models.CASCADE)
-#     name = models.CharField(max_length=50)
-#     surname = models.CharField(max_length=50)
-#     email = models.CharField(max_length=50)
-#     telephone = models.CharField(max_length=50)
+class History(models.Model):
+    child = models.ForeignKey(Children, on_delete=models.CASCADE)
+    receiver = models.ForeignKey(User, on_delete=models.CASCADE ,related_name='receiver')
+    teacher = models.ForeignKey(User, on_delete=models.CASCADE, related_name='teacher')
+    decision = models.BooleanField(default=True)
+    date = models.DateTimeField(auto_now_add=True)
