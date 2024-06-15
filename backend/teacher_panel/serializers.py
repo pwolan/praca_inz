@@ -1,4 +1,5 @@
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+from backbone.models import CustomUser as User
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 
@@ -8,6 +9,6 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         token = super().get_token(user)
         
         print(token)
-        token['name'] = user.username
+        token['email'] = user.email #TODO change to email
         # you can put any other fields you wish and within the user object
         return token

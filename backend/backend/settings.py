@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'backbone.CustomUser'
+
 
 # Application definition
 
@@ -91,7 +93,6 @@ SIMPLE_JWT = {
 
 WSGI_APPLICATION = "backend.wsgi.application"
 
-# AUTH_USER_MODEL = 'backbone.User'
 # AUTHENTICATION_BACKENDS = ['backbone.backend.SettingsBackend']
 
 # Database
