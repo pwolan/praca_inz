@@ -6,43 +6,10 @@ from django.contrib.auth.models import PermissionsMixin, AbstractUser
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.utils import timezone
 
-from . import manager
+from . import manager, types
 
-#from backbone.models import User
+# models: CustomUser, Log, Consent, UserConsent
 
-
-class LogType(models.TextChoices):
-    LOGIN = 'LOGIN', 'Login'
-    CREATE = 'CREATE', 'Create'
-    DELETE = 'DELETE', 'Delete'
-    IMPORT = 'IMPORT', 'Import' # import 
-    ADD_PARENT = 'ADD_PARENT', 'Add Parent' # Add parent to child
-    HISTORY = 'HISTORY', 'History' # Who accessed history
-    ADD_PERMISSION = 'ADD_PERMISSION', 'Add Permission' # Add temporary permission
-    SIGN = 'SIGN', 'Sign' # Sign consent
-    WARNING = 'WARNING', 'Warning'
-    ERROR = 'ERROR', 'Error'
-    INFO = 'INFO', 'Info'
-
-class ConsentType(models.TextChoices):
-    INFORMATION = 'INFORMATION', 'Information'
-    BIOMETRIC = 'BIOMETRIC', 'Biometric'
-    # etc.
-
-class AccessType(models.IntegerChoices):
-    NONE = 0, 'None'
-    PARTIAL = 1 , 'Partial'
-    FULL = 2 , 'Full'
-
-# class CustomUser(AbstractUser):
-#     teacher_perm = models.PositiveSmallIntegerField(choices=AccessType.choices, default=AccessType.NONE)
-#     parent_perm = models.PositiveSmallIntegerField(choices=AccessType.choices, default=AccessType.NONE)
-#     email = models.EmailField(unique=True)
-
-#     USERNAME_FIELD = 'email'
-#     REQUIRED_FIELDS = []
-
-#     objects = manager.UserManager()
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
 
@@ -53,8 +20,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(default=timezone.now)
-    teacher_perm = models.PositiveSmallIntegerField(choices=AccessType.choices, default=AccessType.NONE)
-    parent_perm = models.PositiveSmallIntegerField(choices=AccessType.choices, default=AccessType.NONE)
+    teacher_perm = models.PositiveSmallIntegerField(choices=types.AccessType.choices, default=types.AccessType.NONE)
+    parent_perm = models.PositiveSmallIntegerField(choices=types.AccessType.choices, default=types.AccessType.NONE)
 
     objects = manager.UserManager()
 
@@ -81,13 +48,23 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         """Send an email to this user."""
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
-class Logs(models.Model):
-    log_type = models.CharField(max_length=20, choices=LogType.choices, default=LogType.LOGIN)
+
+
+
+class Log(models.Model):
+    log_type = models.CharField(max_length=16, choices=types.LogType.choices, default=types.LogType.LOGIN)
     date = models.DateTimeField(auto_now_add=True)
     data = models.JSONField()
 
-class Consents(models.Model):
-    consent_type = models.CharField(max_length=20, choices=ConsentType.choices, default=ConsentType.INFORMATION)
+
+
+
+
+
+
+
+class Consent(models.Model):
+    consent_type = models.CharField(max_length=16, choices=types.ConsentType.choices, default=types.ConsentType.INFORMATION)
     change_date = models.DateTimeField(auto_now=True)
     description = models.TextField()
 
@@ -96,9 +73,9 @@ class Consents(models.Model):
             models.UniqueConstraint(fields=['consent_type', 'description'], name='unique_consent_type_description'),
         ]
 
-class UserConsents(models.Model):
+class UserConsent(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    consent = models.ForeignKey(Consents, on_delete=models.CASCADE)
+    consent = models.ForeignKey(Consent, on_delete=models.CASCADE)
     signing_date = models.DateTimeField(auto_now_add=True)
     seen_changes = models.BooleanField(default=False)
 
