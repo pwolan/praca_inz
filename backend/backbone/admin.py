@@ -1,7 +1,6 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
 
-from .models import CustomUser
+from .models import *
 
 # class CustomUserAdmin(UserAdmin):
 #     add_form = RegisterForm
@@ -10,4 +9,7 @@ from .models import CustomUser
 #     ordering = ("email",)
 #     list_display = ["email", "first_name",]
 
-admin.site.register(CustomUser, UserAdmin) #TODO add required email field when creating user in admin panel and remove username
+admin.site.register(CustomUser) #TODO add required email field when creating user in admin panel and remove username
+admin.site.register(Log) 
+admin.site.register(Consent) 
+admin.site.register(UserConsent) 

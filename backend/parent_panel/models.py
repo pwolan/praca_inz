@@ -7,7 +7,7 @@ from backbone.models import CustomUser as User
 from teacher_panel.models import Children
 from backbone.types import PermissionState
 
-# Create your models here.
+# models: UserChildren, History, PermittedUser, Permission
 
 class UserChildren(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -15,9 +15,8 @@ class UserChildren(models.Model):
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['user', 'child'], name='unique_user_child')
+            models.UniqueConstraint(fields=['user', 'child'], name='unique_parent_child')
         ]
-
 
 class History(models.Model):
     child = models.ForeignKey(Children, on_delete=models.CASCADE)
@@ -31,8 +30,13 @@ class PermittedUser(models.Model):
     child = models.ForeignKey(Children, on_delete=models.CASCADE)
     parent = models.ForeignKey(User, on_delete=models.CASCADE, related_name="parent")
     date = models.DateTimeField(default=timezone.now)
-    signature_delivered = models.BooleanField(default=False
-    )
+    signature_delivered = models.BooleanField(default=False)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'child'], name='unique_receiver_child'),
+        ]
+
 class Permission(models.Model):
     permitteduser = models.ForeignKey(PermittedUser, on_delete=models.CASCADE)
     parent = models.ForeignKey(User, on_delete=models.CASCADE)
