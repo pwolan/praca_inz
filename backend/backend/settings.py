@@ -42,8 +42,9 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
+    'backbone',
     'teacher_panel',
-    'backbone'
+    'parent_panel',
 ]
 
 MIDDLEWARE = [
