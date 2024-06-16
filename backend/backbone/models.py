@@ -10,13 +10,12 @@ from . import manager, types
 
 # models: CustomUser, Log, Consent, UserConsent
 
-
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-
     username = models.CharField(max_length=150, unique=True)
     first_name = models.CharField(max_length=150, blank=True)
     last_name = models.CharField(max_length=150, blank=True)
     email = models.EmailField(unique=True)
+    phone_number = models.CharField(max_length=16, default="", blank=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(default=timezone.now)
@@ -48,20 +47,10 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         """Send an email to this user."""
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
-
-
-
 class Log(models.Model):
     log_type = models.CharField(max_length=16, choices=types.LogType.choices, default=types.LogType.LOGIN)
     date = models.DateTimeField(auto_now_add=True)
     data = models.JSONField()
-
-
-
-
-
-
-
 
 class Consent(models.Model):
     consent_type = models.CharField(max_length=16, choices=types.ConsentType.choices, default=types.ConsentType.INFORMATION)
