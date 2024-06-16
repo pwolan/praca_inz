@@ -12,7 +12,7 @@ export function Navigation() {
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <button onClick={() => navigate(-1)} className="flex items-center space-x-3 rtl:space-x-reverse">
+        <button onClick={() => navigate(-1)} className="flex items-center space-x-3 rtl:space-x-reverse text-gray-900 md:text-white dark:text-white">
           Powrót
         </button>
         <div className="hidden w-full md:block md:w-auto" id="navbar-default">

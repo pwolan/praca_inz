@@ -5,6 +5,7 @@ import { Login } from './pages/Login';
 import { Root } from "./pages/Root";
 import { Home } from "./pages/teacher/Home";
 import { Class } from "./pages/teacher/Class";
+import { CreateClass } from "./pages/teacher/CreateClass";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
     path: "/teacher/class/:id",
     element: <Class />
   },
+  {
+    path: "/teacher/create-class",
+    element: <CreateClass />
+  }
 ]);
 
 function App() {

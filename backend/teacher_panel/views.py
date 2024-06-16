@@ -5,19 +5,35 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
-
+from backbone.models import CustomUser
+from .serializers import ClassroomSerializer
 from .models import *
 
-
+# To delete eventually ?
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def send_some_data(request: HttpRequest):
     classes = dict()
-    user_classes = UserClassrooms.objects.filter(user_id=request.user.id)
+    user_classes = UserClassroom.objects.filter(user_id=request.user.id)
     for class_obj in user_classes:
          classes[class_obj.classroom_id] = Classroom.objects.get(id=class_obj.classroom_id).name
     return Response({
         "data": "Hello from teacher api",
+        "classes": classes
+    })
+    
+# Teacher home page data - name and surname of teacher, classes he is teaching
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def teacher_data(request):
+    classes = dict()
+    user_classes = UserClassroom.objects.filter(user_id=request.user.id)
+    for class_obj in user_classes:
+         classes[class_obj.classroom_id] = Classroom.objects.get(id=class_obj.classroom_id).name
+    teacher = CustomUser.objects.get(id=request.user.id)
+    name = teacher.first_name + " " + teacher.last_name
+    return Response({
+        "name": name,
         "classes": classes
     })
 
@@ -66,3 +82,15 @@ class LogoutView(APIView):
                return Response(status=status.HTTP_205_RESET_CONTENT)
           except Exception as e:
                return Response(status=status.HTTP_400_BAD_REQUEST)
+           
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def create_classroom(request):
+    if request.method == 'POST':
+        serializer = ClassroomSerializer(data=request.data)
+        if serializer.is_valid():
+            classroom = serializer.save()
+            # Przypisanie klasy do nauczyciela
+            UserClassroom.objects.create(user=request.user, classroom=classroom)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
