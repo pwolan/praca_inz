@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
@@ -15,6 +15,13 @@ const validationSchema = Yup.object().shape({
 });
 
 export const Login = () => {
+
+    useEffect(() => {
+        const access_token = localStorage.getItem('access_token');
+        if (access_token) {
+            window.location.href = '/teacher'
+        }
+    });
 
     const submit = async (values, { setStatus }) => {
         console.log('submit3');

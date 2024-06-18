@@ -26,7 +26,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     EMAIL_FIELD = "email"
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = [] #TODO what fields are required in creation
+    REQUIRED_FIELDS = ["username"] #TODO what fields are required in creation
 
     def clean(self):
         super().clean()
