@@ -38,6 +38,7 @@ def teacher_data(request):
     })
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def class_data(request, id):
     # obj = Children(1, 'jan', 'augustyn', 1)
     # obj.save()
@@ -92,5 +93,17 @@ def create_classroom(request):
             classroom = serializer.save()
             # Przypisanie klasy do nauczyciela
             UserClassroom.objects.create(user=request.user, classroom=classroom)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def create_child(request, id):
+    if request.method == 'POST':
+        serializer = ClassroomSerializer(data=request.data)
+        if serializer.is_valid():
+            classroom = serializer.save()
+            # Przypisanie klasy do nauczyciela
+            Children.objects.create(name = request.first_name, surname=request.last_name, birth_day=request.birth_day, classroom_id=class_id)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
