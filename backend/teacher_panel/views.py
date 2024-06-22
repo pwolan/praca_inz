@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 from backbone.models import CustomUser
-from .serializers import ClassroomSerializer
+from .serializers import ClassroomSerializer, ChildrenSerializer
 from .models import *
 
 # To delete eventually ?
@@ -97,13 +97,18 @@ def create_classroom(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def create_child(request, id):
+    print('weszłem')
     if request.method == 'POST':
-        serializer = ClassroomSerializer(data=request.data)
+        print(request.data)
+        serializer = ChildrenSerializer(data=request.data)
+        print(serializer)
+        print('dalej')
         if serializer.is_valid():
-            classroom = serializer.save()
+            print('weszłem 2')
+            serializer.save()
             # Przypisanie klasy do nauczyciela
-            Children.objects.create(name = request.first_name, surname=request.last_name, birth_day=request.birth_day, classroom_id=class_id)
+            # Children.objects.create(data)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
