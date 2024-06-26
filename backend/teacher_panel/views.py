@@ -22,7 +22,7 @@ def teacher_data(request):
     for class_obj in user_classes:
          classes[class_obj.classroom_id] = Classroom.objects.get(id=class_obj.classroom_id).name
     teacher = CustomUser.objects.get(id=request.user.id)
-    name = teacher.first_name + " " + teacher.last_name
+    name = teacher.get_full_name()
     return Response({
         "name": name,
         "classes": classes
@@ -77,16 +77,12 @@ def create_classroom(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
-# @permission_classes([IsAuthenticated])
+@permission_classes([IsTeacher])
 def create_child(request, id):
     print('weszłem')
     if request.method == 'POST':
-        print(request.data)
         serializer = ChildrenSerializer(data=request.data)
-        print(serializer)
-        print('dalej')
         if serializer.is_valid():
-            print('weszłem 2')
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

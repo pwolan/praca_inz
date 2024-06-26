@@ -42,8 +42,7 @@ export const Class = () => {
       <div className="flex flex-col items-center justify-center mt-10">
         {classData && (
           <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-3xl">
-            <h1 className="text-3xl font-bold mb-4">ID klasy: {classData.id}</h1>
-            <h2 className="text-2xl font-semibold mb-4">Nazwa klasy: {classData.class_name}</h2>
+            <h2 className="text-2xl font-semibold mb-4">Klasa: {classData.class_name}</h2>
             <div>
               <h3 className="text-xl font-semibold mb-2">Lista dzieci:</h3>
               <ul className="list-disc list-inside space-y-2">
