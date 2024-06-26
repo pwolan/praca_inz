@@ -7,8 +7,8 @@ class Classroom(models.Model):
     name = models.CharField(unique=True, max_length=100)
 
     class Meta:
-        verbose_name = "Classroom"
-        verbose_name_plural = "Classroom"
+        verbose_name = "Classroom" # "Klasa" 
+        verbose_name_plural = "Classrooms" # "Klasy"
 
 class UserClassroom(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -18,8 +18,8 @@ class UserClassroom(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['user', 'classroom'], name='unique_user_classroom')
         ]
-        verbose_name = "UserClassroom"
-        verbose_name_plural = "UserClassroom"
+        verbose_name = "User-Classroom" # "Klasa Nauczyciela"
+        verbose_name_plural = "Users-Classrooms" # "Klasy Nauczyciela"
 
 class Children(models.Model):
     name = models.CharField(max_length=50)
@@ -31,5 +31,5 @@ class Children(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['name', 'surname', 'birth_date'], name='unique_name_surname_birth_date')
         ]
-        verbose_name = "Children"
-        verbose_name_plural = "Children"
+        verbose_name = "Child" # "Dziecko"
+        verbose_name_plural = "Children" # "Dzieci"

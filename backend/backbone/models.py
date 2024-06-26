@@ -10,10 +10,9 @@ from . import manager, types
 
 # models: CustomUser, Log, Consent, UserConsent
 
-class CustomUser(AbstractBaseUser, PermissionsMixin):
-    # username = models.CharField(max_length=150, unique=True)
-    first_name = models.CharField(max_length=150, blank=True)
-    last_name = models.CharField(max_length=150, blank=True)
+class CustomUser(AbstractBaseUser, PermissionsMixin): #TODO maybe add birth_date too?
+    first_name = models.CharField(max_length=150)
+    last_name = models.CharField(max_length=150)
     email = models.EmailField(unique=True)
     phone_number = models.CharField(max_length=16, default="", blank=True)
     is_staff = models.BooleanField(default=False)
@@ -26,20 +25,20 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     EMAIL_FIELD = "email"
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = [] #TODO what fields are required in creation
+    REQUIRED_FIELDS = ["first_name", "last_name"]
 
     def clean(self):
         super().clean()
         self.email = self.__class__.objects.normalize_email(self.email)
 
-    def get_full_name(self): #TODO change for our use
+    def get_full_name(self):
         """
         Return the first_name plus the last_name, with a space in between.
         """
         full_name = "%s %s" % (self.first_name, self.last_name)
         return full_name.strip()
 
-    def get_short_name(self): #TODO change for our use
+    def get_short_name(self):
         """Return the short name for the user."""
         return self.first_name
 
@@ -48,8 +47,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
     class Meta:
-        verbose_name = "CustomUser"
-        verbose_name_plural = "CustomUser"
+        verbose_name = "User" # "Użytkownik"
+        verbose_name_plural = "Users" # "Użytkownicy"
 
 class Log(models.Model):
     log_type = models.CharField(max_length=16, choices=types.LogType.choices, default=types.LogType.LOGIN)
@@ -57,8 +56,8 @@ class Log(models.Model):
     data = models.JSONField()
 
     class Meta:
-        verbose_name = "Log"
-        verbose_name_plural = "Log"
+        verbose_name = "Log" # "Log"
+        verbose_name_plural = "Logs" # "Logi"
 
 class Consent(models.Model):
     consent_type = models.CharField(max_length=16, choices=types.ConsentType.choices, default=types.ConsentType.INFORMATION)
@@ -69,8 +68,8 @@ class Consent(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['consent_type', 'description'], name='unique_consent_type_description'),
         ]
-        verbose_name = "Consent"
-        verbose_name_plural = "Consent"
+        verbose_name = "Consent" # "Zgoda"
+        verbose_name_plural = "Consents" # "Zgody"
 
 class UserConsent(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
@@ -82,5 +81,5 @@ class UserConsent(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['user', 'consent'], name='unique_user_consent')
         ]
-        verbose_name = "UserConsent"
-        verbose_name_plural = "UserConsent"
+        verbose_name = "User-Consent" # "Zgoda Użytkownika"
+        verbose_name_plural = "Users-Consents" # "Zgody Użytkownika"

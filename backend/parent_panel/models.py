@@ -17,8 +17,8 @@ class UserChildren(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['user', 'child'], name='unique_parent_child')
         ]
-        verbose_name = "UserChildren"
-        verbose_name_plural = "UserChildren"
+        verbose_name = "User-Child" # "Dziecko Użytkownika"
+        verbose_name_plural = "Users-Children" # "Dzieci Użytkownika"
 
 class History(models.Model):
     child = models.ForeignKey(Children, on_delete=models.CASCADE)
@@ -28,8 +28,8 @@ class History(models.Model):
     date = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        verbose_name = "History"
-        verbose_name_plural = "History"
+        verbose_name = "History" # "Historia"
+        verbose_name_plural = "History" # "Historia"
 
 class PermittedUser(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user")
@@ -42,8 +42,8 @@ class PermittedUser(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['user', 'child'], name='unique_receiver_child'),
         ]
-        verbose_name = "PermittedUser"
-        verbose_name_plural = "PermittedUser"
+        verbose_name = "PermittedUser" # "Dozwolony Użytkownik"
+        verbose_name_plural = "PermittedUsers" # "Dozwoleni Użytkownicy"
 
 class Permission(models.Model):
     permitteduser = models.ForeignKey(PermittedUser, on_delete=models.CASCADE)
@@ -55,5 +55,5 @@ class Permission(models.Model):
     end_date = models.DateTimeField()
 
     class Meta:
-        verbose_name = "Permission"
-        verbose_name_plural = "Permission"
+        verbose_name = "Permission" # "Uprawnienie"
+        verbose_name_plural = "Permissions" # "Uprawnienia"
