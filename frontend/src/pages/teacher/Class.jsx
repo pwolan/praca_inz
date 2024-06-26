@@ -3,9 +3,11 @@ import React, { useState, useEffect } from 'react';
 import { Navigation } from "../../components/Navigation";
 import { useParams, Link } from 'react-router-dom';
 import {BACKEND_ADDRESS, FRONTEND_ADDRESS} from '../../constances';
+import { useNavigate } from 'react-router-dom';
 
 export const Class = () => {
   let {id} = useParams();
+  const navigate = useNavigate();
   const [classData, setClassData] = useState('');
   const [children, setChildren] = useState('');
 
@@ -26,6 +28,7 @@ export const Class = () => {
   const handleAddChild = () => {
     // Logika do dodania nowego dziecka
     // Formularz można zrobić za pomocą Formik -> Patrz Login.jsx
+    navigate(`/teacher/class/${id}/create`);
 
   };
 

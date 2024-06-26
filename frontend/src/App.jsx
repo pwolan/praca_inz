@@ -6,6 +6,7 @@ import { Root } from "./pages/Root";
 import { Home } from "./pages/teacher/Home";
 import { Class } from "./pages/teacher/Class";
 import { CreateClass } from "./pages/teacher/CreateClass";
+import { CreateChild } from "./pages/teacher/CreateChild";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
   {
     path: "/teacher/create-class",
     element: <CreateClass />
+  },
+  {
+    path: "/teacher/class/:id/create",
+    element: <CreateChild />
   }
 ]);
 
