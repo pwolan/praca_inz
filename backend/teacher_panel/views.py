@@ -108,7 +108,5 @@ def create_child(request, id):
         if serializer.is_valid():
             print('weszłem 2')
             serializer.save()
-            # Przypisanie klasy do nauczyciela
-            # Children.objects.create(data)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
