@@ -8,23 +8,14 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from backbone.models import CustomUser
 from .serializers import ClassroomSerializer, ChildrenSerializer
 from .models import *
+from backbone.permisions import IsTeacher
 
-# To delete eventually ?
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def send_some_data(request: HttpRequest):
-    classes = dict()
-    user_classes = UserClassroom.objects.filter(user_id=request.user.id)
-    for class_obj in user_classes:
-         classes[class_obj.classroom_id] = Classroom.objects.get(id=class_obj.classroom_id).name
-    return Response({
-        "data": "Hello from teacher api",
-        "classes": classes
-    })
+#TODO przy logowaniu updateować last_login from django.contrib.auth.models import update_last_login
+
     
 # Teacher home page data - name and surname of teacher, classes he is teaching
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsTeacher])
 def teacher_data(request):
     classes = dict()
     user_classes = UserClassroom.objects.filter(user_id=request.user.id)
@@ -38,7 +29,7 @@ def teacher_data(request):
     })
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsTeacher])
 def class_data(request, id):
     # obj = Children(1, 'jan', 'augustyn', 1)
     # obj.save()
@@ -60,32 +51,21 @@ def class_data(request, id):
         "children": children,
         "class_name": classroom.name,
     })
-
-class HomeView(APIView):
-
-    permission_classes = (IsAuthenticated, )
-
-    def get(self, request):
-        content = {
-            'message': 'Welcome to the JWT Authentication page using React Js and Django!'
-        }
-        return Response(content)
     
 
-class LogoutView(APIView):
-     permission_classes = (IsAuthenticated,)
-     def post(self, request):
-          
-          try:
-               refresh_token = request.data["refresh_token"]
-               token = RefreshToken(refresh_token)
-               token.blacklist()
-               return Response(status=status.HTTP_205_RESET_CONTENT)
-          except Exception as e:
-               return Response(status=status.HTTP_400_BAD_REQUEST)
+# class LogoutView(APIView):
+#      permission_classes = (IsTeacher,)
+#      def post(self, request):
+#           try:
+#                refresh_token = request.data["refresh_token"]
+#                token = RefreshToken(refresh_token)
+#                token.blacklist()
+#                return Response(status=status.HTTP_205_RESET_CONTENT)
+#           except Exception as e:
+#                return Response(status=status.HTTP_400_BAD_REQUEST)
            
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsTeacher])
 def create_classroom(request):
     if request.method == 'POST':
         serializer = ClassroomSerializer(data=request.data)

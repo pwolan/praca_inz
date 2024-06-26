@@ -17,6 +17,8 @@ class UserChildren(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['user', 'child'], name='unique_parent_child')
         ]
+        verbose_name = "UserChildren"
+        verbose_name_plural = "UserChildren"
 
 class History(models.Model):
     child = models.ForeignKey(Children, on_delete=models.CASCADE)
@@ -24,6 +26,10 @@ class History(models.Model):
     teacher = models.ForeignKey(User, on_delete=models.CASCADE, related_name='teacher')
     decision = models.BooleanField(default=True)
     date = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        verbose_name = "History"
+        verbose_name_plural = "History"
 
 class PermittedUser(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user")
@@ -36,6 +42,8 @@ class PermittedUser(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['user', 'child'], name='unique_receiver_child'),
         ]
+        verbose_name = "PermittedUser"
+        verbose_name_plural = "PermittedUser"
 
 class Permission(models.Model):
     permitteduser = models.ForeignKey(PermittedUser, on_delete=models.CASCADE)
@@ -45,3 +53,7 @@ class Permission(models.Model):
     two_factor_code = models.IntegerField() #TODO validator so it accepts only 8-number integers
     start_date = models.DateTimeField(default=timezone.now)
     end_date = models.DateTimeField()
+
+    class Meta:
+        verbose_name = "Permission"
+        verbose_name_plural = "Permission"

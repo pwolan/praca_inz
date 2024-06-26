@@ -11,7 +11,7 @@ from . import manager, types
 # models: CustomUser, Log, Consent, UserConsent
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    username = models.CharField(max_length=150, unique=True)
+    # username = models.CharField(max_length=150, unique=True)
     first_name = models.CharField(max_length=150, blank=True)
     last_name = models.CharField(max_length=150, blank=True)
     email = models.EmailField(unique=True)
@@ -47,10 +47,18 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         """Send an email to this user."""
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
+    class Meta:
+        verbose_name = "CustomUser"
+        verbose_name_plural = "CustomUser"
+
 class Log(models.Model):
     log_type = models.CharField(max_length=16, choices=types.LogType.choices, default=types.LogType.LOGIN)
     date = models.DateTimeField(auto_now_add=True)
     data = models.JSONField()
+
+    class Meta:
+        verbose_name = "Log"
+        verbose_name_plural = "Log"
 
 class Consent(models.Model):
     consent_type = models.CharField(max_length=16, choices=types.ConsentType.choices, default=types.ConsentType.INFORMATION)
@@ -61,6 +69,8 @@ class Consent(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['consent_type', 'description'], name='unique_consent_type_description'),
         ]
+        verbose_name = "Consent"
+        verbose_name_plural = "Consent"
 
 class UserConsent(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
@@ -72,3 +82,5 @@ class UserConsent(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['user', 'consent'], name='unique_user_consent')
         ]
+        verbose_name = "UserConsent"
+        verbose_name_plural = "UserConsent"
