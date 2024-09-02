@@ -18,7 +18,7 @@ export const Login = () => {
 
     const submit = async (values, { setStatus }) => {
         const user = {
-            username: values.email,
+            email: values.email,
             password: values.password
         };
 

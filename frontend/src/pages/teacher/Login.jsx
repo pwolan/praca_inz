@@ -24,7 +24,6 @@ export const Login = () => {
     });
 
     const submit = async (values, { setStatus }) => {
-        console.log('submit3');
         const user = {
             email: values.email,
             password: values.password

@@ -36,7 +36,8 @@ class CustomUserAdmin(UserAdmin):
         (None, {
             "classes": ("wide",),
             "fields": (
-                "email", "first_name", "last_name", "password1", "password2", 
+                "email", "password1", "password2", "is_staff",
+                "is_active", "groups", "user_permissions"
             )}
         ),
     )
@@ -44,7 +45,7 @@ class CustomUserAdmin(UserAdmin):
     ordering = ("email",)
     
 
-admin.site.register(CustomUser, CustomUserAdmin)
+admin.site.register(CustomUser, CustomUserAdmin) #TODO add required email field when creating user in admin panel and remove username
 admin.site.register(Log) 
 admin.site.register(Consent) 
 admin.site.register(UserConsent) 
