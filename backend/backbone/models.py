@@ -10,9 +10,10 @@ from . import manager, types
 
 # models: CustomUser, Log, Consent, UserConsent
 
-class CustomUser(AbstractBaseUser, PermissionsMixin): #TODO maybe add birth_date too?
-    first_name = models.CharField(max_length=150)
-    last_name = models.CharField(max_length=150)
+class CustomUser(AbstractBaseUser, PermissionsMixin):
+    # username = models.CharField(max_length=150, unique=True)
+    first_name = models.CharField(max_length=150, blank=True)
+    last_name = models.CharField(max_length=150, blank=True)
     email = models.EmailField(unique=True)
     phone_number = models.CharField(max_length=16, default="", blank=True)
     is_staff = models.BooleanField(default=False)

@@ -1,7 +1,7 @@
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import axios from "axios";
 import { Navigation } from "../../components/Navigation";
-import {BACKEND_ADDRESS, FRONTEND_ADDRESS} from "../../constances";
+import {BACKEND_ADDRESS} from "../../constances";
 
 export const Home = () => {
     //  const [message, setMessage] = useState('');
@@ -34,9 +34,7 @@ export const Home = () => {
           <h3>Witaj Rodzicu </h3>
           <p>Twoje dzieci:</p>
           <ul>
-          {/* {Object.entries(classes).map(([id, el]) => (
-            <li>{el}:<button><a href={FRONTEND_ADDRESS + '/teacher/class/' + id}>Modyfikuj</a></button></li>
-          ))} */}
+
           </ul>
         </div>
       </div>

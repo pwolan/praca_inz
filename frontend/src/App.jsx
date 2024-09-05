@@ -1,12 +1,14 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Login as TeacherLogin } from './pages/teacher/Login';
-import { Logout as TeacherLogout } from './pages/teacher/Logout';
+import { Logout } from './pages/Logout';
 import { Login } from './pages/Login';
+import { Login as ParentLogin } from "./pages/parent/Login";
 import { Root } from "./pages/Root";
 import { Home } from "./pages/teacher/Home";
 import { Class } from "./pages/teacher/Class";
 import { CreateClass } from "./pages/teacher/CreateClass";
 import { CreateChild } from "./pages/teacher/CreateChild";
+import { Home as ParentHome } from "./pages/parent/Home";
 
 const router = createBrowserRouter([
   {
@@ -18,16 +20,16 @@ const router = createBrowserRouter([
     element: <Login />,
   },
   {
+    path: "/logout",
+    element: <Logout />
+  },
+  {
     path: "/teacher",
     element: <Home />,
   },
   {
     path: "/teacher/login",
     element: <TeacherLogin />,
-  },
-  {
-    path: "/teacher/logout",
-    element: <TeacherLogout />,
   },
   {
     path: "/teacher/class/:id",
@@ -40,6 +42,14 @@ const router = createBrowserRouter([
   {
     path: "/teacher/class/:id/create",
     element: <CreateChild />
+  },
+  {
+    path: "/parent/login",
+    element: <ParentLogin />
+  },
+  {
+    path: "/parent",
+    element: <ParentHome />
   }
 ]);
 
